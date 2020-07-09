@@ -11,9 +11,11 @@ export class CreateAccountComponent implements OnInit {
   genders = ['male', 'female'];
   signupForm: FormGroup;
   forbiddenUsernames = ['Chris', 'Anna'];
+  get hobbies(): FormArray {
+    return this.signupForm.get('hobbies') as FormArray;
+ }
 
-  constructor(
-    private formBuilder: FormBuilder) {
+  constructor() {
 
   }
 
@@ -23,10 +25,15 @@ export class CreateAccountComponent implements OnInit {
 
   onSubmit() {
     console.log(this.signupForm);
-    this.signupForm.reset();
+    console.log('username='+this.signupForm.get('username').value);
+    console.log('email='+this.signupForm.get('email').value);
+    console.log("gender="+this.signupForm.get('gender').value);
+    //this.signupForm.reset();
   }
 
-  onAddHobby() {
+  onAddHobby(event: Event) {
+    console.log(event);
+
     const control = new FormControl(null, Validators.required);
     (<FormArray>this.signupForm.get('hobbies')).push(control);
   }
@@ -51,9 +58,20 @@ export class CreateAccountComponent implements OnInit {
     return promise;
   }
 
+  // private initSignupForm(): void {
+  //   this.signupForm = this.formBuilder.group({
+  //     username: ['', Validators.required],
+  //     email: ['', [Validators.required, Validators.email]],
+  //     gender: ['male', Validators.required],
+  //     hobbies: this.formBuilder.array([])
+  //   });
+  // }
   private initSignupForm(): void {
-    this.signupForm = this.formBuilder.group({
-      username: ['', Validators.required]
+    this.signupForm = new FormGroup({
+      'username': new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)]),
+      'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmails),
+      'gender': new FormControl('male'),
+      'hobbies': new FormArray([])
     });
   }
 }
