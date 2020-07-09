@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { MatRadioButton, MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'app-create-account',
@@ -11,6 +12,14 @@ export class CreateAccountComponent implements OnInit {
   genders = ['male', 'female'];
   signupForm: FormGroup;
   forbiddenUsernames = ['Chris', 'Anna'];
+
+  onChange(mrChange: MatRadioChange) {
+    console.log(mrChange.value);
+    let mrButton: MatRadioButton = mrChange.source;
+    console.log(mrButton.name);
+    console.log(mrButton.checked);
+    console.log(mrButton.inputId);
+  }
   //   get hobbies(): FormArray {
   //     return this.signupForm.get('hobbies') as FormArray;
   //   }
@@ -51,6 +60,7 @@ This adjustment is required due to the way TS works and Angular parses your temp
 
   /**
    *  This method gets the hobbies ForArray control called by the template
+   *  @returns FormArray controls based on the index in the html template.
    */
   getControls() {
     return (<FormArray>this.signupForm.get('hobbies')).controls;
@@ -60,7 +70,11 @@ This adjustment is required due to the way TS works and Angular parses your temp
     this.initSignupForm();
   }
 
-  getUsernameErrorMessage() {
+  /**
+   * get the username error message if there is an error
+   * @returns nothing or a string
+   */
+  getUsernameErrorMessage(): string {
     if (this.signupForm.get('username').hasError('required')) {
       return 'You must enter a value';
     }
@@ -68,7 +82,11 @@ This adjustment is required due to the way TS works and Angular parses your temp
     return this.signupForm.get('username').hasError('username') ? 'Not a valid username' : '';
   }
 
-  getEmailErrorMessage() {
+  /**
+   * get the email error message if there is an error
+   * @returns nothing or a string
+   */
+  getEmailErrorMessage(): string {
     if (this.signupForm.get('email').hasError('required')) {
       return 'You must enter a value';
     }
@@ -76,6 +94,17 @@ This adjustment is required due to the way TS works and Angular parses your temp
     return this.signupForm.get('email').hasError('email') ? 'Not a valid email' : '';
   }
 
+  /**
+   * get the overall form error message if there is an error
+   * @returns nothing or a string
+   */
+  getFormErrorMessage(): string {
+    return this.signupForm.invalid ? 'Please enter valid data!' : '';
+  }
+
+  /**
+   * submit the data from the html template.
+   */
   onSubmit() {
     console.log(this.signupForm);
     console.log('username=' + this.signupForm.get('username').value);
@@ -85,7 +114,8 @@ This adjustment is required due to the way TS works and Angular parses your temp
       let hobbie = (<FormArray>this.signupForm.get('hobbies')).controls[i].value;
       console.log('hobbie=' + hobbie);
     }
-    //this.signupForm.reset();
+    this.signupForm.reset();
+    this.initSignupForm();
   }
 
   /**
@@ -97,8 +127,9 @@ This adjustment is required due to the way TS works and Angular parses your temp
   }
 
   /**
-   *
+   * check for forbbin names
    * @param control
+   * @requires true or null
    */
   forbiddenNames(control: FormControl): { [s: string]: boolean } {
     if (this.forbiddenUsernames.indexOf(control.value) !== -1) {
@@ -107,6 +138,11 @@ This adjustment is required due to the way TS works and Angular parses your temp
     return null;
   }
 
+  /**
+   * check for forbidden emails.
+   * @param control
+   * @returns a Promise or Observable
+   */
   forbiddenEmails(control: FormControl): Promise<any> | Observable<any> {
     const promise = new Promise<any>((resolve, reject) => {
       setTimeout(() => {
@@ -128,6 +164,10 @@ This adjustment is required due to the way TS works and Angular parses your temp
   //     hobbies: this.formBuilder.array([])
   //   });
   // }
+
+  /**
+   * Initialize the signupForm controls.
+   */
   private initSignupForm(): void {
     this.signupForm = new FormGroup({
       'username': new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)]),
