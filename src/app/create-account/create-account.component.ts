@@ -11,33 +11,80 @@ export class CreateAccountComponent implements OnInit {
   genders = ['male', 'female'];
   signupForm: FormGroup;
   forbiddenUsernames = ['Chris', 'Anna'];
-  get hobbies(): FormArray {
-    return this.signupForm.get('hobbies') as FormArray;
- }
+  //   get hobbies(): FormArray {
+  //     return this.signupForm.get('hobbies') as FormArray;
+  //   }
+  // get controls() {
+  //   return (this.signupForm.get('hobbies') as FormArray).controls;
+  // }
 
+  /**Fixing a Bug
+In the next lecture, we'll add some code to access the controls of our form array:
+
+*ngFor="let hobbyControl of signupForm.get('hobbies').controls; let i = index"
+
+This code will fail as of the latest Angular version.
+
+You can fix it easily though. Outsource the "get the controls" logic into a method of your component code (the .ts file):
+
+getControls() {
+  return (<FormArray>this.signupForm.get('hobbies')).controls;
+}
+In the template, you can then use:
+
+*ngFor="let hobbyControl of getControls(); let i = index"
+
+Alternatively, you can set up a getter and use an alternative type casting syntax:
+
+get controls() {
+  return (this.signupForm.get('hobbies') as FormArray).controls;
+}
+and then in the template:
+
+*ngFor="let hobbyControl of controls; let i = index"
+
+This adjustment is required due to the way TS works and Angular parses your templates (it doesn't understand TS there).
+
+ */
   constructor() {
+  }
 
+  /**
+   *  This method gets the hobbies ForArray control called by the template
+   */
+  getControls() {
+    return (<FormArray>this.signupForm.get('hobbies')).controls;
   }
 
   ngOnInit() {
     this.initSignupForm();
   }
 
+
   onSubmit() {
     console.log(this.signupForm);
-    console.log('username='+this.signupForm.get('username').value);
-    console.log('email='+this.signupForm.get('email').value);
-    console.log("gender="+this.signupForm.get('gender').value);
+    console.log('username=' + this.signupForm.get('username').value);
+    console.log('email=' + this.signupForm.get('email').value);
+    console.log("gender=" + this.signupForm.get('gender').value);
+    for (let i = 0; i < (<FormArray>this.signupForm.get('hobbies')).controls.length; i++) {
+      let hobbie = (<FormArray>this.signupForm.get('hobbies')).controls[i].value;
+      console.log('hobbie='+hobbie);
+    }
     //this.signupForm.reset();
   }
 
-  onAddHobby(event: Event) {
-    console.log(event);
-
+  /**
+   * Add a dynamic FormArray control for the hobbies.  The controlName will be the index i from the template
+   */
+  onAddHobby() {
     const control = new FormControl(null, Validators.required);
     (<FormArray>this.signupForm.get('hobbies')).push(control);
   }
 
+  /**
+   *
+   * @param control
+   */
   forbiddenNames(control: FormControl): { [s: string]: boolean } {
     if (this.forbiddenUsernames.indexOf(control.value) !== -1) {
       return { 'nameIsForbidden': true };

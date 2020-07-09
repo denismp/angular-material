@@ -43,9 +43,9 @@
             <h4>Your Hobbies</h4>
             <button mat-raised-button
               type="button"
-              (click)="onAddHobby($event)">Add Hobby</button>
+              (click)="onAddHobby()">Add Hobby</button>
           <div formArrayName="hobbies">
-            <div *ngFor="let hobbie of hobbies.controls; let i = index">
+            <div *ngFor="let hobbie of getControls(); let i = index">
               <mat-form-field appearance="standard">
                 <input matInput [formControlName]="i">
               </mat-form-field>
