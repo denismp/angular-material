@@ -1,35 +1,25 @@
 <div class="flex-container">
-  <!-- <div class="row"> -->
-  <!-- <div> -->
-  <!-- <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2"> -->
-  <!-- <div flex-item> -->
   <mat-card>
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-      <!-- <div formGroupName="userData"> -->
-        <!-- <div class="form-group"> -->
-        <!-- <mat-form-field appearance="fill">
-          <label for="username">Username</label>
-          <input matInput type="text" id="username" formControlName="username" class="form-control">
-        </mat-form-field> -->
         <div>
           <mat-form-field appearance="standard">
             <label for="username">Username</label>
             <input matInput type="text" placeholder="Enter user name" formControlName="username" id="username">
+            <mat-error *ngIf="!signupForm.get('username').valid && signupForm.get('username').touched">{{getUsernameErrorMessage()}}</mat-error>
           </mat-form-field>
         </div>
-        <!-- <span *ngIf="!signupForm.get('userData.username').valid && signupForm.get('userData.username').touched"
+        <!-- <span *ngIf="!signupForm.get('username').valid && signupForm.get('username').touched"
           class="help-block">
-          <span *ngIf="signupForm.get('userData.username').errors['nameIsForbidden']">This name is invalid!</span>
-          <span *ngIf="signupForm.get('userData.username').errors['required']">This field is required!</span>
+          <span *ngIf="signupForm.get('username').errors['nameIsForbidden']">This name is invalid!</span>
+          <span *ngIf="signupForm.get('username').errors['required']">This field is required!</span>
 
         </span> -->
         <div>
           <mat-form-field appearance="standard">
             <label for="email">email</label>
             <input matInput id="email" formControlName="email">
+            <mat-error *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched">{{getEmailErrorMessage()}}</mat-error>
           </mat-form-field>
-          <!-- <span *ngIf="!signupForm.get('userData.email').valid && signupForm.get('userData.email').touched"
-            class="help-block">Please enter a valid email!</span> -->
         </div>
         <!-- <div> -->
           <!-- <mat-radio-group aria-label="Select an option">
@@ -40,6 +30,7 @@
           <div class="radio" *ngFor="let gender of genders">
             <input type="radio" formControlName="gender" [value]="gender">{{ gender }}
           </div>
+            <br>
             <h4>Your Hobbies</h4>
             <button mat-raised-button
               type="button"
@@ -76,6 +67,7 @@
       <!-- </div> -->
       <!-- <span *ngIf="!signupForm.valid && signupForm.touched" class="help-block">Please enter valid data!</span> -->
       <div>
+        <br>
         <button mat-raised-button color="primary">Submit</button>
       </div>
       <!-- <button class="btn btn-primary" type="submit">Submit</button> -->

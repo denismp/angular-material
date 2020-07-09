@@ -60,6 +60,21 @@ This adjustment is required due to the way TS works and Angular parses your temp
     this.initSignupForm();
   }
 
+  getUsernameErrorMessage() {
+    if (this.signupForm.get('username').hasError('required')) {
+      return 'You must enter a value';
+    }
+
+    return this.signupForm.get('username').hasError('username') ? 'Not a valid username' : '';
+  }
+
+  getEmailErrorMessage() {
+    if (this.signupForm.get('email').hasError('required')) {
+      return 'You must enter a value';
+    }
+
+    return this.signupForm.get('email').hasError('email') ? 'Not a valid email' : '';
+  }
 
   onSubmit() {
     console.log(this.signupForm);
@@ -68,7 +83,7 @@ This adjustment is required due to the way TS works and Angular parses your temp
     console.log("gender=" + this.signupForm.get('gender').value);
     for (let i = 0; i < (<FormArray>this.signupForm.get('hobbies')).controls.length; i++) {
       let hobbie = (<FormArray>this.signupForm.get('hobbies')).controls[i].value;
-      console.log('hobbie='+hobbie);
+      console.log('hobbie=' + hobbie);
     }
     //this.signupForm.reset();
   }
