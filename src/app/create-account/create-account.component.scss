@@ -1,0 +1,10 @@
+.flex-container {
+  // height: 50%;
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  // align-items: center;
+  .flex-item {
+    width: fit-content;
+  }
+}

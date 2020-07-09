@@ -1,0 +1,60 @@
+<div class="flex-container">
+  <mat-card>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <div>
+        <mat-form-field appearance="standard">
+          <label for="username">Username</label>
+          <input matInput type="text" placeholder="Enter user name" formControlName="username" id="username">
+          <mat-error *ngIf="!signupForm.get('username').valid && signupForm.get('username').touched">
+            {{getUsernameErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+      <!-- <span *ngIf="!signupForm.get('username').valid && signupForm.get('username').touched"
+          class="help-block">
+          <span *ngIf="signupForm.get('username').errors['nameIsForbidden']">This name is invalid!</span>
+          <span *ngIf="signupForm.get('username').errors['required']">This field is required!</span>
+
+        </span> -->
+      <div>
+        <mat-form-field appearance="standard">
+          <label for="email">email</label>
+          <input matInput id="email" formControlName="email">
+          <mat-error *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched">
+            {{getEmailErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-radio-group formControlName="gender" aria-label="Select an option" (change)=onChange($event) name="gender">
+        <div *ngFor="let gender of genders">
+          <mat-radio-button *ngIf="gender == 'male'" [checked]=true [value]="gender">{{gender}}</mat-radio-button>
+          <mat-radio-button *ngIf="gender != 'male'" [checked]=false [value]="gender">{{gender}}</mat-radio-button>
+        </div>
+      </mat-radio-group>
+
+
+      <!-- <div class="radio" *ngFor="let gender of genders">
+        <input type="radio" formControlName="gender" [value]="gender">{{ gender }}
+      </div> -->
+
+      <br>
+      <h4>Your Hobbies</h4>
+      <button mat-raised-button type="button" (click)="onAddHobby()">Add Hobby</button>
+      <div formArrayName="hobbies">
+        <div *ngFor="let hobbie of getControls(); let i = index">
+          <mat-form-field appearance="standard">
+            <input matInput [formControlName]="i">
+          </mat-form-field>
+        </div>
+      </div>
+      <!--<span *ngIf="!signupForm.valid && signupForm.touched" class="help-block">Please enter valid data!</span> -->
+      <mat-error *ngIf="!signupForm.valid && signupForm.touched"> {{getFormErrorMessage()}}</mat-error>
+      <div>
+        <br>
+        <button mat-raised-button color="primary">Submit</button>
+      </div>
+      <!-- <button class="btn btn-primary" type="submit">Submit</button> -->
+    </form>
+  </mat-card>
+  <!-- </div> -->
+</div>
+<!-- </div> -->
