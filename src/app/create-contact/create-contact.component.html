@@ -20,6 +20,51 @@
         </mat-form-field>
       </div>
 
+      <div>
+        <mat-form-field appearance="standard">
+          <label for="address1">Address1</label>
+          <input matInput type="text" placeholder="Enter address1" formControlName="address1" id="address1">
+          <mat-error *ngIf="!signupForm.get('address1').valid && signupForm.get('address1').touched">
+            {{getAddress1ErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="standard">
+          <label for="address2">Address2</label>
+          <input matInput type="text" placeholder="Enter address2" formControlName="address2" id="address2">
+          <mat-error *ngIf="!signupForm.get('address2').valid && signupForm.get('address2').touched">
+            {{getAddress2ErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="standard">
+          <label for="city">City</label>
+          <input matInput type="text" placeholder="Enter city" formControlName="city" id="city">
+          <mat-error *ngIf="!signupForm.get('city').valid && signupForm.get('city').touched">
+            {{getCityErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="standard">
+          <label for="state">State</label>
+          <input matInput type="text" placeholder="Enter state" formControlName="state" id="state" [value]="signupForm.get('state').value | uppercase">
+          <mat-error *ngIf="!signupForm.get('state').valid && signupForm.get('state').touched">
+            {{getStateErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="standard">
+          <label for="zip">Zip</label>
+          <input matInput type="text" placeholder="Enter zip" formControlName="zip" id="zip">
+          <mat-error *ngIf="!signupForm.get('zip').valid && signupForm.get('zip').touched">
+            {{getZipErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+
       <mat-radio-group formControlName="gender" aria-label="Select an option" (change)=onChange($event) name="gender">
         <div *ngFor="let gender of genders">
           <mat-radio-button *ngIf="gender == 'male'" [checked]=true [value]="gender">{{gender}}</mat-radio-button>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormArray, FormControl, Validators, ControlContainer } from '@angular/forms';
 import { MatRadioChange, MatRadioButton } from '@angular/material/radio';
 import { Observable } from 'rxjs';
 
@@ -61,6 +61,65 @@ export class CreateContactComponent implements OnInit {
   }
 
   /**
+   * get the address1 error message if there is an error
+   * @returns nothing or a string
+   */
+  getAddress1ErrorMessage(): string {
+    if (this.signupForm.get('address1').hasError('required')) {
+      return 'You must enter an address1';
+    }
+
+    return this.signupForm.get('address1').hasError('address1') ? 'Not a valid address1' : '';
+  }
+
+  /**
+   * get the address2 error message if there is an error
+   * @returns nothing or a string
+   */
+  getAddress2ErrorMessage(): string {
+    if (this.signupForm.get('address2').hasError('required')) {
+      return 'You must enter an address2';
+    }
+
+    return this.signupForm.get('address2').hasError('address2') ? 'Not a valid address2' : '';
+  }
+
+  /**
+   * get the city error message if there is an error
+   * @returns nothing or a string
+   */
+  getCityErrorMessage(): string {
+    if (this.signupForm.get('city').hasError('required')) {
+      return 'You must enter a city';
+    }
+
+    return this.signupForm.get('city').hasError('city') ? 'Not a valid city' : '';
+  }
+
+  /**
+   * get the state error message if there is an error
+   * @returns nothing or a string
+   */
+  getStateErrorMessage(): string {
+    if (this.signupForm.get('state').hasError('isNotTwoChars')) {
+      return 'You must enter a two character state';
+    }
+
+    return this.signupForm.get('state').hasError('state') ? 'Not a valid state.  Must be two characters' : '';
+  }
+
+  /**
+   * get the zip error message if there is an error
+   * @returns nothing or a string
+   */
+  getZipErrorMessage(): string {
+    if (this.signupForm.get('zip').hasError('isNotNumber')) {
+      return 'You must enter a zip code';
+    }
+
+    return this.signupForm.get('zip').hasError('zip') ? 'Not a valid zip' : '';
+  }
+  /**
    * get the overall form error message if there is an error
    * @returns nothing or a string
    */
@@ -75,6 +134,11 @@ export class CreateContactComponent implements OnInit {
     console.log(this.signupForm);
     console.log('contactname=' + this.signupForm.get('contactname').value);
     console.log('email=' + this.signupForm.get('email').value);
+    console.log('address1=' + this.signupForm.get('address1').value);
+    console.log('address2=' + this.signupForm.get('address2').value);
+    console.log('city=' + this.signupForm.get('city').value);
+    console.log('state=' + this.signupForm.get('state').value);
+    console.log('zip=' + this.signupForm.get('zip').value);
     console.log("gender=" + this.signupForm.get('gender').value);
     for (let i = 0; i < (<FormArray>this.signupForm.get('hobbies')).controls.length; i++) {
       let hobbie = (<FormArray>this.signupForm.get('hobbies')).controls[i].value;
@@ -123,16 +187,44 @@ export class CreateContactComponent implements OnInit {
   }
 
   /**
+   * check that the control is not a number
+   * @param control
+   * @returns true or null
+   */
+  isNotNumber(control: FormControl): { [s: string]: boolean } {
+    if (isNaN(control.value)) {
+      return { 'isNotNumber': true };
+    }
+    return null;
+  }
+
+  /**
+   * check that the control is not two characters
+   * @param control
+   * @returns true or null
+   */
+  isNotTwoCharacters(control: FormControl): { [s: string]: boolean } {
+    if (control.value != null && control.value.length !== 2) {
+      return { 'isNotTwoChars': true }
+    }
+    return null;
+  }
+
+  /**
    * Initialize the signupForm controls.
    */
   private initSignupForm(): void {
     this.signupForm = new FormGroup({
       'contactname': new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)]),
       'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmails),
+      'address1': new FormControl(null, [Validators.required, Validators.minLength(5)]),
+      'address2': new FormControl(null, []),
+      'city': new FormControl(null, [Validators.required]),
+      'state': new FormControl(null, [Validators.required, this.isNotTwoCharacters]),
+      'zip': new FormControl(null, [Validators.required, Validators.minLength(5), this.isNotNumber]),
       'gender': new FormControl('male'),
       'hobbies': new FormArray([])
     });
   }
-
 
 }
