@@ -1,1 +1,48 @@
-<p>create-contact works!</p>
+<div class="flex-container">
+  <mat-card>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <div>
+        <mat-form-field appearance="standard">
+          <label for="contactname">Contact Name</label>
+          <input matInput type="text" placeholder="Enter contact name" formControlName="contactname" id="contactname">
+          <mat-error *ngIf="!signupForm.get('contactname').valid && signupForm.get('contactname').touched">
+            {{getContactnameErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="standard">
+          <label for="email">email</label>
+          <input matInput id="email" formControlName="email">
+          <mat-error *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched">
+            {{getEmailErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-radio-group formControlName="gender" aria-label="Select an option" (change)=onChange($event) name="gender">
+        <div *ngFor="let gender of genders">
+          <mat-radio-button *ngIf="gender == 'male'" [checked]=true [value]="gender">{{gender}}</mat-radio-button>
+          <mat-radio-button *ngIf="gender != 'male'" [checked]=false [value]="gender">{{gender}}</mat-radio-button>
+        </div>
+      </mat-radio-group>
+
+      <br>
+      <h4>Your Hobbies</h4>
+      <button mat-raised-button type="button" (click)="onAddHobby()">Add Hobby</button>
+      <div formArrayName="hobbies">
+        <div *ngFor="let hobbie of getControls(); let i = index">
+          <mat-form-field appearance="standard">
+            <input matInput [formControlName]="i">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <mat-error *ngIf="!signupForm.valid && signupForm.touched"> {{getFormErrorMessage()}}</mat-error>
+
+      <div>
+        <br>
+        <button mat-raised-button color="primary">Submit</button>
+      </div>
+    </form>
+  </mat-card>
+</div>
