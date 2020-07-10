@@ -3,6 +3,7 @@
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
       <div>
         <mat-form-field appearance="standard">
+          <h3>Enter Contact</h3>
           <label for="contactname">Contact Name</label>
           <input matInput type="text" placeholder="Enter contact name" formControlName="contactname" id="contactname">
           <mat-error *ngIf="!signupForm.get('contactname').valid && signupForm.get('contactname').touched">
@@ -27,7 +28,7 @@
       </mat-radio-group>
 
       <br>
-      <h4>Your Hobbies</h4>
+      <h4>Contact Hobbies</h4>
       <button mat-raised-button type="button" (click)="onAddHobby()">Add Hobby</button>
       <div formArrayName="hobbies">
         <div *ngFor="let hobbie of getControls(); let i = index">
