@@ -3,6 +3,7 @@
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
       <div>
         <mat-form-field appearance="standard">
+          <h3>Enter Account User</h3>
           <label for="username">Username</label>
           <input matInput type="text" placeholder="Enter user name" formControlName="username" id="username">
           <mat-error *ngIf="!signupForm.get('username').valid && signupForm.get('username').touched">
@@ -52,9 +53,6 @@
         <br>
         <button mat-raised-button color="primary">Submit</button>
       </div>
-      <!-- <button class="btn btn-primary" type="submit">Submit</button> -->
     </form>
   </mat-card>
-  <!-- </div> -->
 </div>
-<!-- </div> -->
