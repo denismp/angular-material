@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -7,6 +7,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  @Input() deviceXs: boolean;
 
   // public mode = new FormControl('side');
   constructor() { }
