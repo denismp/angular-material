@@ -95,6 +95,18 @@ This adjustment is required due to the way TS works and Angular parses your temp
   }
 
   /**
+   * get the phone error message if there is an error
+   * @returns nothing or a string
+   */
+  getPhoneErrorMessage(): string {
+    if (this.signupForm.get('phone').hasError('required')) {
+      return 'You must enter a phone number';
+    }
+
+    return this.signupForm.get('email').hasError('email') ? 'Not a valid email' : '';
+  }
+
+  /**
    * get the overall form error message if there is an error
    * @returns nothing or a string
    */
@@ -109,6 +121,7 @@ This adjustment is required due to the way TS works and Angular parses your temp
     console.log(this.signupForm);
     console.log('username=' + this.signupForm.get('username').value);
     console.log('email=' + this.signupForm.get('email').value);
+    console.log('phone=' + this.signupForm.get('phone').value);
     console.log("gender=" + this.signupForm.get('gender').value);
     for (let i = 0; i < (<FormArray>this.signupForm.get('hobbies')).controls.length; i++) {
       let hobbie = (<FormArray>this.signupForm.get('hobbies')).controls[i].value;
@@ -172,6 +185,7 @@ This adjustment is required due to the way TS works and Angular parses your temp
     this.signupForm = new FormGroup({
       'username': new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)]),
       'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmails),
+      'phone': new FormControl(null, [Validators.required]),
       'gender': new FormControl('male'),
       'hobbies': new FormArray([])
     });

@@ -1,9 +1,9 @@
 <div class="flex-container">
-  <mat-card>
+  <mat-card class="example-card">
+    <mat-card-title>Create New Contact</mat-card-title>
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
       <div>
         <mat-form-field appearance="standard">
-          <h3>Enter Contact</h3>
           <label for="contactname">Contact Name</label>
           <input matInput type="text" placeholder="Enter contact name" formControlName="contactname" id="contactname">
           <mat-error *ngIf="!signupForm.get('contactname').valid && signupForm.get('contactname').touched">
@@ -19,6 +19,15 @@
             {{getEmailErrorMessage()}}</mat-error>
         </mat-form-field>
       </div>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Telephone</mat-label>
+        <span matPrefix>+1 &nbsp;</span>
+        <input type="tel" matInput placeholder="555-555-1234" formControlName="phone" id="phone">
+        <mat-icon matSuffix>mode_edit</mat-icon>
+        <mat-error *ngIf="!signupForm.get('phone').valid && signupForm.get('phone').touched">
+            {{getPhoneErrorMessage()}}</mat-error>
+      </mat-form-field>
 
       <div>
         <mat-form-field appearance="standard">
