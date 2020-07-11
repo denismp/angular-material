@@ -12,6 +12,15 @@
       </div>
 
       <div>
+      <mat-form-field appearance="standard">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="Enter a description of the activity" formControlName="description" id="description"></textarea>
+        <mat-error *ngIf="!signupForm.get('description').valid && signupForm.get('description').touched">
+            {{getActivitydescriptionErrorMessage()}}</mat-error>
+      </mat-form-field>
+      </div>
+
+      <div>
         <mat-form-field appearance="standard">
           <label for="email">Activity Email</label>
           <input matInput id="email" formControlName="email">
@@ -26,7 +35,7 @@
         <input type="tel" matInput placeholder="555-555-1234" formControlName="phone" id="phone">
         <mat-icon matSuffix>mode_edit</mat-icon>
         <mat-error *ngIf="!signupForm.get('phone').valid && signupForm.get('phone').touched">
-            {{getPhoneErrorMessage()}}</mat-error>
+            {{getEmailErrorMessage()}}</mat-error>
       </mat-form-field>
 
       <div>

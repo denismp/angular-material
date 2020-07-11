@@ -48,6 +48,18 @@ export class CreateActivityComponent implements OnInit {
   }
 
   /**
+   * get the description error message if there is an error
+   * @returns nothing or a string
+   */
+  getActivitydescriptionErrorMessage(): string {
+    if (this.signupForm.get('description').hasError('required')) {
+      return 'You must enter a description';
+    }
+
+    return this.signupForm.get('description').hasError('description') ? 'Not a valid description' : '';
+  }
+
+  /**
    * get the email error message if there is an error
    * @returns nothing or a string
    */
@@ -68,7 +80,7 @@ export class CreateActivityComponent implements OnInit {
       return 'You must enter a phone number';
     }
 
-    return this.signupForm.get('email').hasError('email') ? 'Not a valid email' : '';
+    return this.signupForm.get('phone').hasError('phone') ? 'Not a valid phone' : '';
   }
 
   /**
@@ -144,6 +156,7 @@ export class CreateActivityComponent implements OnInit {
   onSubmit() {
     console.log(this.signupForm);
     console.log('activityname=' + this.signupForm.get('activityname').value);
+    console.log('description=' + this.signupForm.get('description').value);
     console.log('email=' + this.signupForm.get('email').value);
     console.log('phone=' + this.signupForm.get('phone').value);
     console.log('address1=' + this.signupForm.get('address1').value);
@@ -151,21 +164,8 @@ export class CreateActivityComponent implements OnInit {
     console.log('city=' + this.signupForm.get('city').value);
     console.log('state=' + this.signupForm.get('state').value);
     console.log('zip=' + this.signupForm.get('zip').value);
-    // console.log("gender=" + this.signupForm.get('gender').value);
-    // for (let i = 0; i < (<FormArray>this.signupForm.get('hobbies')).controls.length; i++) {
-    //   let hobbie = (<FormArray>this.signupForm.get('hobbies')).controls[i].value;
-    //   console.log('hobbie=' + hobbie);
-    // }
     this.signupForm.reset();
     this.initSignupForm();
-  }
-
-  /**
-   * Add a dynamic FormArray control for the hobbies.  The controlName will be the index i from the template
-   */
-  onAddHobby() {
-    const control = new FormControl(null, Validators.required);
-    (<FormArray>this.signupForm.get('hobbies')).push(control);
   }
 
   /**
@@ -228,6 +228,7 @@ export class CreateActivityComponent implements OnInit {
   private initSignupForm(): void {
     this.signupForm = new FormGroup({
       'activityname': new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)]),
+      'description': new FormControl(null, [Validators.required]),
       'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmails),
       'phone': new FormControl(null, [Validators.required]),
       'address1': new FormControl(null, [Validators.required, Validators.minLength(5)]),
