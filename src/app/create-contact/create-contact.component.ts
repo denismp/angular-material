@@ -61,6 +61,18 @@ export class CreateContactComponent implements OnInit {
   }
 
   /**
+   * get the phone error message if there is an error
+   * @returns nothing or a string
+   */
+  getPhoneErrorMessage(): string {
+    if (this.signupForm.get('phone').hasError('required')) {
+      return 'You must enter a phone number';
+    }
+
+    return this.signupForm.get('email').hasError('email') ? 'Not a valid email' : '';
+  }
+
+  /**
    * get the address1 error message if there is an error
    * @returns nothing or a string
    */
@@ -134,6 +146,7 @@ export class CreateContactComponent implements OnInit {
     console.log(this.signupForm);
     console.log('contactname=' + this.signupForm.get('contactname').value);
     console.log('email=' + this.signupForm.get('email').value);
+    console.log('phone=' + this.signupForm.get('phone').value);
     console.log('address1=' + this.signupForm.get('address1').value);
     console.log('address2=' + this.signupForm.get('address2').value);
     console.log('city=' + this.signupForm.get('city').value);
@@ -217,6 +230,7 @@ export class CreateContactComponent implements OnInit {
     this.signupForm = new FormGroup({
       'contactname': new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)]),
       'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmails),
+      'phone': new FormControl(null, [Validators.required]),
       'address1': new FormControl(null, [Validators.required, Validators.minLength(5)]),
       'address2': new FormControl(null, []),
       'city': new FormControl(null, [Validators.required]),

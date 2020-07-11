@@ -25,6 +25,16 @@
         </mat-form-field>
       </div>
 
+      <mat-form-field appearance="standard">
+        <mat-label>Telephone</mat-label>
+        <span matPrefix>+1 &nbsp;</span>
+        <input type="tel" matInput placeholder="555-555-1234" formControlName="phone" id="phone">
+        <mat-icon matSuffix>mode_edit</mat-icon>
+        <mat-error *ngIf="!signupForm.get('phone').valid && signupForm.get('phone').touched">
+            {{getPhoneErrorMessage()}}</mat-error>
+      </mat-form-field>
+
+
       <mat-radio-group formControlName="gender" aria-label="Select an option" (change)=onChange($event) name="gender">
         <div *ngFor="let gender of genders">
           <mat-radio-button *ngIf="gender == 'male'" [checked]=true [value]="gender">{{gender}}</mat-radio-button>
