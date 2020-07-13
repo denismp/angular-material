@@ -29,4 +29,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## flex-layout video
 `https://youtu.be/iWYP3NtKQjs`
 `https://github.com/Tariqu/flex-tutorial`
+`https://www.youtube.com/watch?v=Q6qhzG7mObU`
+
+Example to start.
+ng generate @angular/material:material-nav --name="app-main-nav"
 
