@@ -23,14 +23,6 @@ export class CreateActivityComponent implements OnInit {
   constructor() {
   }
 
-  /**
-   *  This method gets the hobbies ForArray control called by the template
-   *  @returns FormArray controls based on the index in the html template.
-   */
-  getControls() {
-    return (<FormArray>this.signupForm.get('hobbies')).controls;
-  }
-
   ngOnInit() {
     this.initSignupForm();
   }
